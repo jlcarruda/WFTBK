@@ -1,4 +1,3 @@
-from MainMenu import MainMenu
-from ScreenOne import ScreenOne
-from WindowHandler import WindowHandler
-from Window import Window
+from Window import *
+from MainMenu import *
+from WindowHandler import *

@@ -1,3 +1,5 @@
+import WFTBK
+from Window import Window
 
 class WindowHandler(object):
     __elements = {}
@@ -26,3 +28,12 @@ class WindowHandler(object):
 
     def getElements(self):
         return self.__elements
+
+    def createWindow(self, background, name, gameObjects = []):
+        window = Window()
+        window.name = name
+        window.background = background
+        self.addElement(window)
+        return window
+
+

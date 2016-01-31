@@ -1,7 +1,6 @@
-import pygame
-from pygame.locals import *
+import WFTBK
 
-class GameLoop():
+class GameLoop(object):
 
     __instance = None
 
@@ -10,30 +9,24 @@ class GameLoop():
     __screen = None
     __windowHandler = None
 
-    def __init__(self, initialWindow, screen, eventBroadcaster ):
+    def __init__(self, initialWindow=None, eventBroadcaster=None ):
        # self.__windowHandler = windowHandler
         self.__eventBroadcaster = eventBroadcaster
         self.__currentWindow = initialWindow
-        self.__screen = screen
 
     def __new__(cls, *args, **kwargs): #SINGLETON PATTERN
         if not cls.__instance:
-            cls.__instance = super(GameLoop, cls).__new__(cls, *args, **kwargs)
+            cls.__instance = super(GameLoop, cls).__new__(cls, *args)
         return cls.__instance
 
     def initLoop(self):
+
         while True:
-
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    exit()
-                    break
-
+            if WFTBK.pygame.event.peek(WFTBK.QUIT):
+                exit()
+                break
             # this is the injection of the handler of the window into the game loop
             self.__currentWindow.windowScheduleFunction(self)
-
-    def getScreen(self):
-        return self.__screen
 
     def changeWindow(self, window):
         print 'Window changed to ' + window.name
@@ -51,4 +44,3 @@ class GameLoop():
 
     def getWindowHandler(self):
         return self.__windowHandler
-

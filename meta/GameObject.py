@@ -1,14 +1,15 @@
-import pygame
-import random
-pygame.display.init()
+import WFTBK
+from WFTBK import *
+# Needs to initialize the display to use it
+
 #Abstract
 class __GameObject(object):
-    __sprite = None #Path of image loaded by pygame
-    __loadedSprite = None
-    __pos = None
-    def __init__(self, sprite, pos=(0,0), eventType="BUTTONPRESSED"):
-        self.__sprite = sprite
-        self.__pos = pos
+    sprite = None #Path of image loaded by pygame
+    loadedSprite = None
+    pos = None
+    def __init__(self, sprite, pos=(0,0)):
+        self.sprite = sprite
+        self.pos = pos
 
     def tick(self):
         pass
@@ -19,26 +20,41 @@ class __GameObject(object):
 class Button(__GameObject):
 
     __eventAssociated = None
+    onClick = None
 
-    def __init__(self, sprite, pos=(0,0), eventType=None): # sprite = Obj, pos = tuple
+    def __init__(self, sprite, onClickEvent=None,pos=(0,0)): # sprite = Obj, pos = tuple
         super(Button, self).__init__(sprite, pos)
-        if(eventType == None):
-            eventType = random.randint(0,99999)
-        self.__sprite = sprite
-        self.__eventAssociated = pygame.event.Event(eventType, {"obj": self})
+        self.sprite = sprite
 
-        pygame.event.post(self.__eventAssociated)
+        print onClickEvent
+        self.onClick = WFTBK.types.MethodType(onClickEvent, self)
 
     def tick(self):
         # See if the button is clicked
         # Do something
-        pass
+        if self.loadedSprite == None:
+            self.loadedSprite = pygame.image.load(self.sprite)
+
+        for e in WFTBK.pygame.event.get():
+            if e.type == MOUSEBUTTONDOWN and self.__isClicked():
+                if self.onClick != None and type(self.onClick).__name__ == "instancemethod":
+                    self.onClick()
 
     def render(self):
         # Render the sprites into the window in the position
-        #TODO: Need to finish the logic
-        #TODO: Fix the bug that says that pygame is no initialized
-        if self.__loadedSprite == None:
-            self.__loadedSprite = pygame.image.load(self.__sprite)
+        return (self.loadedSprite, self.pos)
 
-        return (self.__loadedSprite, self.__pos)
+    def __isClicked(self): #return boolean
+        mouseX, mouseY = WFTBK.pygame.mouse.get_pos() #tuple
+        x, y = self.pos
+        w, h = self.loadedSprite.get_size()
+
+        varX = x + w
+        varY = y + h
+
+        if mouseX > x and mouseX < varX and mouseY > y and mouseY < varY:
+            return True
+        return False
+
+    def defineOnClick(self, function):
+        self.onClick = WFTBK.types.MethodType(function, self)

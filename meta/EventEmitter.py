@@ -1,3 +1,4 @@
+import WFTBK
 
 class EventBroadcaster(object):
     __instance = None

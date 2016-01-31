@@ -1,9 +1,6 @@
-import pygame
-from Window import *
-from pygame.locals import *
-from gui.WindowHandler import WindowHandler
+import WFTBK
 
-
+from Window import Window
 class ScreenOne(Window):
     background = 'sprites/screen-bg.png'
     name = 'ScreenOne'
@@ -11,7 +8,7 @@ class ScreenOne(Window):
     def windowScheduleFunction(self, gameLoop, event = None):
         super(ScreenOne, self).windowScheduleFunction(gameLoop)
 
-        for e in pygame.event.get():
-            if e.type == MOUSEBUTTONDOWN:
+        for e in WFTBK.pygame.event.get():
+            if e.type == WFTBK.MOUSEBUTTONDOWN:
                 nextWindow = gameLoop.getWindowHandler().getElement('MainMenu')
                 gameLoop.changeWindow(nextWindow)

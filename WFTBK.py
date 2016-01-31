@@ -1,22 +1,19 @@
-import pygame, os, math, sys
-
-import gui
-from config.default import *
-import gui
-from meta.EventEmitter import *
-from meta.GameLoop import *
-from gui import *
+import pygame
 from pygame.locals import *
-from time import sleep
+import random
+from gui import *
+from meta import *
+from config import *
+import types
 
-screen = pygame.display.set_mode(resolution, 0, 32)
-pygame.init()
+def onClickStartButton(self):
+    #nextWindow = windowHandler.getElement('test')
+    #gameLoop.changeWindow(nextWindow)
+    print "hey"
 
 class Session(object):
-
+    screen = pygame.display.set_mode(resolution, 0, 32)
     __instance = None
-
-    #__windowHandler = WindowHandler()
 
     __spritesRootPath = 'sprites'
     __EventBroadcaster = EventBroadcaster()
@@ -33,15 +30,27 @@ class Session(object):
         return self.__EventBroadcaster
 
     def __startSession(self):
-
+        self.__importDependencies()
         windowHandler = WindowHandler()
-        mainMenu = MainMenu() # Main Window
-        windowHandler.addElement(mainMenu)
-
-        loop = GameLoop(mainMenu, screen, self.__EventBroadcaster)
+        loop = GameLoop()
         loop.setWindowHandler(windowHandler)
 
+        testWindow = windowHandler.createWindow("sprites/screen-bg.png", "test")
+
+        button = Button("sprites/start.png", onClickStartButton, (300,300))
+
+        #button.onClick = types.MethodType(onClickStartButton, button)
+        print button.onClick()
+
+        mainMenu = windowHandler.createWindow("sprites/main-menu.png", "MainMenu")
+        mainMenu.addGameObject(button)
+        loop.changeWindow(mainMenu)
+
         loop.initLoop()
+
+    def __importDependencies(self):
+        import pygame
+
 
 
 if __name__== "__main__":
