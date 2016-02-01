@@ -26,8 +26,8 @@ class Button(__GameObject):
         super(Button, self).__init__(sprite, pos)
         self.sprite = sprite
 
-        print onClickEvent
-        self.onClick = WFTBK.types.MethodType(onClickEvent, self)
+        if onClickEvent != None and type(onClickEvent).__name__ == 'instancemethod':
+            self.onClick = WFTBK.types.MethodType(onClickEvent, self)
 
     def tick(self):
         # See if the button is clicked
@@ -36,6 +36,7 @@ class Button(__GameObject):
             self.loadedSprite = pygame.image.load(self.sprite)
 
         for e in WFTBK.pygame.event.get():
+            print e.type == MOUSEBUTTONDOWN, self.__isClicked()
             if e.type == MOUSEBUTTONDOWN and self.__isClicked():
                 if self.onClick != None and type(self.onClick).__name__ == "instancemethod":
                     self.onClick()

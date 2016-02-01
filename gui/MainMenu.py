@@ -9,4 +9,4 @@ class MainMenu(Window):
         super(MainMenu, self).windowScheduleFunction(gameLoop)
 
     def tick(self):
-        Window.tick(Window())
+        pass

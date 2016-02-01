@@ -1,4 +1,4 @@
-import WFTBK
+import WFTBK, sys
 
 class GameLoop(object):
 
@@ -23,8 +23,7 @@ class GameLoop(object):
 
         while True:
             if WFTBK.pygame.event.peek(WFTBK.QUIT):
-                exit()
-                break
+                sys.exit()
             # this is the injection of the handler of the window into the game loop
             self.__currentWindow.windowScheduleFunction(self)
 

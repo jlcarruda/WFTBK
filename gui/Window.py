@@ -1,14 +1,11 @@
 import WFTBK
 
-class Window(object):
+class Window():
     background = None
     __loadedBackground = None
     __gameObjects = []
     __eventHandler = None
     name = None
-
-    def __call__(self, *args, **kwargs):
-        return self
 
     # Here will have all the stuff that needs to be updated/rendered/checked in every run of the gameLoop
     def windowScheduleFunction(self, gameLoop):
@@ -19,10 +16,9 @@ class Window(object):
         self.__gameObjects.append(object)
 
     def removeGameObject(self, object):
-        self.__gameObjects.append(object)
+        self.__gameObjects.pop(object)
 
     def tick(self):
-
         for object in self.__gameObjects:
             object.tick()
 
@@ -51,3 +47,7 @@ class Window(object):
                 if type(element).__name__ != "instance":
                     return
         self.__gameObjects = listObjects
+
+    def getGameObjects(self):
+        print self
+        return self.__gameObjects

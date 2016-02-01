@@ -3,6 +3,7 @@ import WFTBK
 from Window import Window
 class ScreenOne(Window):
     background = 'sprites/screen-bg.png'
+    __gameObjects = []
     name = 'ScreenOne'
 
     def windowScheduleFunction(self, gameLoop, event = None):

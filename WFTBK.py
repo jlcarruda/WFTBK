@@ -6,11 +6,6 @@ from meta import *
 from config import *
 import types
 
-def onClickStartButton(self):
-    #nextWindow = windowHandler.getElement('test')
-    #gameLoop.changeWindow(nextWindow)
-    print "hey"
-
 class Session(object):
     screen = pygame.display.set_mode(resolution, 0, 32)
     __instance = None
@@ -30,28 +25,32 @@ class Session(object):
         return self.__EventBroadcaster
 
     def __startSession(self):
-        self.__importDependencies()
         windowHandler = WindowHandler()
         loop = GameLoop()
         loop.setWindowHandler(windowHandler)
 
-        testWindow = windowHandler.createWindow("sprites/screen-bg.png", "test")
+        def onClickStartButton(self):
+            nextWindow = windowHandler.getElement('test')
+            loop.changeWindow(nextWindow)
 
-        button = Button("sprites/start.png", onClickStartButton, (300,300))
+        def onClickQuitButton(self):
+            sys.exit()
 
-        #button.onClick = types.MethodType(onClickStartButton, button)
-        print button.onClick()
+        startButton = Button("sprites/start.png", onClickStartButton, (300,300))
+        tutorialButton = Button("sprites/tutorial.png", None, (300,200))
+        quitButton = Button("sprites/quit.png", onClickQuitButton, (300,100))
 
         mainMenu = windowHandler.createWindow("sprites/main-menu.png", "MainMenu")
-        mainMenu.addGameObject(button)
+        mainMenu.addGameObject(startButton)
+        mainMenu.addGameObject(tutorialButton)
+        mainMenu.addGameObject(quitButton)
+        testWindow = windowHandler.createWindow("sprites/screen-bg.png", "test")
+
+        print mainMenu.addGameObject
+        print testWindow.addGameObject
         loop.changeWindow(mainMenu)
 
         loop.initLoop()
-
-    def __importDependencies(self):
-        import pygame
-
-
 
 if __name__== "__main__":
     Session = Session()

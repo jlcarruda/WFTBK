@@ -31,8 +31,10 @@ class WindowHandler(object):
 
     def createWindow(self, background, name, gameObjects = []):
         window = Window()
+        print window
         window.name = name
         window.background = background
+        window.setGameObjects(gameObjects)
         self.addElement(window)
         return window
 
