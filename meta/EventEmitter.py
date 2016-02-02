@@ -1,4 +1,4 @@
-import WFTBK
+from WFTBK import *
 
 class EventBroadcaster(object):
     __instance = None
@@ -10,12 +10,12 @@ class EventBroadcaster(object):
         return cls.__instance
 
 
-    def subscribe(self, obj, stack):
+    def subscribe(self, obj, event):
 
-        if not self.__eventstacks.has_key(stack):
-            self.__eventstacks[stack] = []
+        if not self.__eventstacks.has_key(event):
+            self.__eventstacks[event] = []
 
-        self.__eventstacks[stack].append(obj)
+        self.__eventstacks[event].append(obj)
 
     def emit(self, stack, options=None):
 

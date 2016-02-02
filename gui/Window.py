@@ -1,52 +1,50 @@
-import WFTBK
+import pygame
 
 class Window():
     background = None
     __loadedBackground = None
-    __gameObjects = []
+    __gameObjects = None
     __eventHandler = None
     name = None
 
     # Here will have all the stuff that needs to be updated/rendered/checked in every run of the gameLoop
-    def windowScheduleFunction(self, gameLoop):
+    def windowScheduleFunction(self):
         self.tick()
         self.render()
 
     def addGameObject(self, object):
+        if self.__gameObjects == None:
+            self.__gameObjects = []
         self.__gameObjects.append(object)
+        print self.__gameObjects
 
     def removeGameObject(self, object):
+        if self.__gameObjects == None:
+            self.__gameObjects = []
+
         self.__gameObjects.pop(object)
 
     def tick(self):
+        if self.__gameObjects == None:
+            self.__gameObjects = []
+
         for object in self.__gameObjects:
             object.tick()
 
     #The render of all objects of the window. Including the background and the game objects
     def render(self):
         if self.__loadedBackground == None:
-            self.__loadedBackground = WFTBK.pygame.image.load(self.background).convert_alpha()
+            self.__loadedBackground = pygame.image.load(self.background).convert_alpha()
 
         # It will blit the background of the screen first
-        WFTBK.Session.screen.blit(self.__loadedBackground, (0,0))
+        pygame.display.get_surface().blit(self.__loadedBackground, (0,0))
 
         for object in self.__gameObjects:
             sprite, pos = object.render()
-            WFTBK.Session.screen.blit(sprite, pos)
-
-        # Draw the back buffer into the front buffer
-        WFTBK.pygame.display.flip()
+            pygame.display.get_surface().blit(sprite, pos)
 
     def getMousePos(self):
-
-        return WFTBK.pygame.mouse.get_pos()
-
-    def setGameObjects(self, listObjects):
-        if type(listObjects).__name__ == "list":
-            for element in listObjects:
-                if type(element).__name__ != "instance":
-                    return
-        self.__gameObjects = listObjects
+        return pygame.mouse.get_pos()
 
     def getGameObjects(self):
         print self

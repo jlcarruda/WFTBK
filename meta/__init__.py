@@ -1,3 +1,3 @@
-from EventEmitter import *
-from GameLoop import *
+from GameLoop import GameLoop
 from GameObject import *
+from EventEmitter import EventBroadcaster

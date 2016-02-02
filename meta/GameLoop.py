@@ -1,4 +1,11 @@
-import WFTBK, sys
+
+from WFTBK import *
+
+def helloWorld(self):
+    print "Hello World"
+
+def quit(self):
+    GameLoop().shutdown()
 
 class GameLoop(object):
 
@@ -6,13 +13,28 @@ class GameLoop(object):
 
     __eventBroadcaster = None
     __currentWindow = None
-    __screen = None
+    __screen = pygame.display.get_surface()
     __windowHandler = None
+    running = False
 
-    def __init__(self, initialWindow=None, eventBroadcaster=None ):
+    def __init__(self):
        # self.__windowHandler = windowHandler
-        self.__eventBroadcaster = eventBroadcaster
-        self.__currentWindow = initialWindow
+        self.__eventBroadcaster = meta.EventBroadcaster()
+        self.__windowHandler = gui.WindowHandler()
+        self.__currentWindow = self.__windowHandler.createWindow("sprites/main-menu-new.png", "MainMenu")
+
+        startButton = meta.Button("sprites/start.png", helloWorld, (300,300))
+        tutorialButton = meta.Button("sprites/tutorial.png", None, (300,200))
+        quitButton = meta.Button("sprites/quit.png", quit, (300,100))
+
+        self.__currentWindow.addGameObject(quitButton)
+        self.__currentWindow.addGameObject(startButton)
+        self.__currentWindow.addGameObject(tutorialButton)
+
+
+
+    def __call__(self, *args, **kwargs):
+        return self.__instance
 
     def __new__(cls, *args, **kwargs): #SINGLETON PATTERN
         if not cls.__instance:
@@ -21,17 +43,22 @@ class GameLoop(object):
 
     def initLoop(self):
 
-        while True:
-            if WFTBK.pygame.event.peek(WFTBK.QUIT):
+        self.running = True
+        while self.running:
+            event = pygame.event.poll()
+            if event.type == QUIT:
                 sys.exit()
+
             # this is the injection of the handler of the window into the game loop
-            self.__currentWindow.windowScheduleFunction(self)
+            self.__currentWindow.windowScheduleFunction()
+
+            pygame.display.flip()
 
     def changeWindow(self, window):
         print 'Window changed to ' + window.name
 
         # Add the window into the windowHandler if it wasn't added yet
-        if not self.__windowHandler.getElements().has_key(window.name):
+        if not self.__windowHandler.getElement(window.name):
             self.__windowHandler.addElement(window)
 
         self.__currentWindow = window
@@ -43,3 +70,6 @@ class GameLoop(object):
 
     def getWindowHandler(self):
         return self.__windowHandler
+
+    def shutdown(self):
+        self.running = False

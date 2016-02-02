@@ -1,8 +1,5 @@
-import WFTBK
 from WFTBK import *
-# Needs to initialize the display to use it
 
-#Abstract
 class __GameObject(object):
     sprite = None #Path of image loaded by pygame
     loadedSprite = None
@@ -25,31 +22,28 @@ class Button(__GameObject):
     def __init__(self, sprite, onClickEvent=None,pos=(0,0)): # sprite = Obj, pos = tuple
         super(Button, self).__init__(sprite, pos)
         self.sprite = sprite
+        self.loadedSprite = pygame.image.load(self.sprite)
 
-        if onClickEvent != None and type(onClickEvent).__name__ == 'instancemethod':
-            self.onClick = WFTBK.types.MethodType(onClickEvent, self)
+        if onClickEvent != None:
+            self.onClick = types.MethodType(onClickEvent, self)
 
     def tick(self):
-        # See if the button is clicked
-        # Do something
-        if self.loadedSprite == None:
-            self.loadedSprite = pygame.image.load(self.sprite)
 
-        for e in WFTBK.pygame.event.get():
-            print e.type == MOUSEBUTTONDOWN, self.__isClicked()
-            if e.type == MOUSEBUTTONDOWN and self.__isClicked():
-                if self.onClick != None and type(self.onClick).__name__ == "instancemethod":
-                    self.onClick()
+        e = pygame.event.poll()
+        if e.type == MOUSEBUTTONDOWN and self.__isClicked():
+            print "Clicou!"
+            if self.onClick != None and type(self.onClick).__name__ == "instancemethod":
+                self.onClick()
+                return
 
     def render(self):
         # Render the sprites into the window in the position
         return (self.loadedSprite, self.pos)
 
     def __isClicked(self): #return boolean
-        mouseX, mouseY = WFTBK.pygame.mouse.get_pos() #tuple
+        mouseX, mouseY = pygame.mouse.get_pos() #tuple
         x, y = self.pos
         w, h = self.loadedSprite.get_size()
-
         varX = x + w
         varY = y + h
 
@@ -58,4 +52,4 @@ class Button(__GameObject):
         return False
 
     def defineOnClick(self, function):
-        self.onClick = WFTBK.types.MethodType(function, self)
+        self.onClick = types.MethodType(function, self)

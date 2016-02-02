@@ -1,3 +1,2 @@
-from Window import *
-from MainMenu import *
-from WindowHandler import *
+from Window import Window
+from WindowHandler import WindowHandler

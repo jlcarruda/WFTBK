@@ -1,5 +1,4 @@
-import WFTBK
-from Window import Window
+from gui import Window
 
 class WindowHandler(object):
     __elements = {}
@@ -26,15 +25,11 @@ class WindowHandler(object):
         self.__elements.pop(name)
         return
 
-    def getElements(self):
-        return self.__elements
-
-    def createWindow(self, background, name, gameObjects = []):
+    def createWindow(self, background, name):
         window = Window()
         print window
         window.name = name
         window.background = background
-        window.setGameObjects(gameObjects)
         self.addElement(window)
         return window
 
