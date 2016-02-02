@@ -8,42 +8,41 @@ class __GameObject(object):
         self.sprite = sprite
         self.pos = pos
 
-    def tick(self):
+    def tick(self, event):
         pass
 
     def render(self):
         pass
 
-class Button(__GameObject):
+    def onInputFocus(self):
+        pass
 
-    __eventAssociated = None
-    onClick = None
+    def onInputBlur(self):
+        pass
 
-    def __init__(self, sprite, onClickEvent=None,pos=(0,0)): # sprite = Obj, pos = tuple
-        super(Button, self).__init__(sprite, pos)
-        self.sprite = sprite
-        self.loadedSprite = pygame.image.load(self.sprite)
+    def onClick(self):
+        pass
 
-        if onClickEvent != None:
-            self.onClick = types.MethodType(onClickEvent, self)
+    def onMouseOver(self):
+        pass
 
-    def tick(self):
+    # Binder Functions
+    def defineOnClickEvent(self, function):
+        self.onClick = types.MethodType(function, self)
 
-        e = pygame.event.poll()
-        if e.type == MOUSEBUTTONDOWN and self.__isClicked():
-            print "Clicou!"
-            if self.onClick != None and type(self.onClick).__name__ == "instancemethod":
-                self.onClick()
-                return
+    def defineOnMouseOverEvent(self, function):
+        self.onMouseOver = types.MethodType(function, self)
 
-    def render(self):
-        # Render the sprites into the window in the position
-        return (self.loadedSprite, self.pos)
+    def defineOnInputFocus(self, function):
+        self.onInputFocus = types.MethodType(function, self)
 
-    def __isClicked(self): #return boolean
-        mouseX, mouseY = pygame.mouse.get_pos() #tuple
+    def defineOnInputBlur(self, function):
+        self.onInputBlur = types.MethodType(function, self)
+
+    def __containsPoint(self, mousePos):
+        mouseX, mouseY = mousePos #tuple
         x, y = self.pos
-        w, h = self.loadedSprite.get_size()
+        w, h = self.loadedSprite.get_width(), self.loadedSprite.get_height()
         varX = x + w
         varY = y + h
 
@@ -51,5 +50,21 @@ class Button(__GameObject):
             return True
         return False
 
-    def defineOnClick(self, function):
-        self.onClick = types.MethodType(function, self)
+
+class Button(__GameObject):
+
+    __eventAssociated = None
+
+    def __init__(self, sprite, pos=(0,0)): # sprite = Obj, pos = tuple
+        super(Button, self).__init__(sprite, pos)
+        self.sprite = sprite
+        self.loadedSprite = pygame.image.load(self.sprite)
+
+    def tick(self, event):
+        if event.type == MOUSEBUTTONDOWN and event.button == LEFTMOUSEBUTTON:
+            if self.__containsPoint(event.dict['pos']):
+                self.onClick()
+
+    def render(self):
+        # Render the sprites into the window in the position
+        return (self.loadedSprite, self.pos)

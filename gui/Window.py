@@ -8,8 +8,8 @@ class Window():
     name = None
 
     # Here will have all the stuff that needs to be updated/rendered/checked in every run of the gameLoop
-    def windowScheduleFunction(self):
-        self.tick()
+    def windowScheduleFunction(self, event):
+        self.tick(event)
         self.render()
 
     def addGameObject(self, object):
@@ -24,12 +24,12 @@ class Window():
 
         self.__gameObjects.pop(object)
 
-    def tick(self):
+    def tick(self, event):
         if self.__gameObjects == None:
             self.__gameObjects = []
 
         for object in self.__gameObjects:
-            object.tick()
+            object.tick(event)
 
     #The render of all objects of the window. Including the background and the game objects
     def render(self):
@@ -48,4 +48,3 @@ class Window():
 
     def getGameObjects(self):
         print self
-        return self.__gameObjects

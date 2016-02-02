@@ -23,15 +23,16 @@ class GameLoop(object):
         self.__windowHandler = gui.WindowHandler()
         self.__currentWindow = self.__windowHandler.createWindow("sprites/main-menu-new.png", "MainMenu")
 
-        startButton = meta.Button("sprites/start.png", helloWorld, (300,300))
-        tutorialButton = meta.Button("sprites/tutorial.png", None, (300,200))
-        quitButton = meta.Button("sprites/quit.png", quit, (300,100))
+        startButton = meta.Button("sprites/start.png",  (300,300))
+        tutorialButton = meta.Button("sprites/tutorial.png", (300,200))
+        quitButton = meta.Button("sprites/quit.png", (300,100))
+
+        startButton.defineOnClickEvent(helloWorld)
+        quitButton.defineOnClickEvent(quit)
 
         self.__currentWindow.addGameObject(quitButton)
         self.__currentWindow.addGameObject(startButton)
         self.__currentWindow.addGameObject(tutorialButton)
-
-
 
     def __call__(self, *args, **kwargs):
         return self.__instance
@@ -49,8 +50,8 @@ class GameLoop(object):
             if event.type == QUIT:
                 sys.exit()
 
-            # this is the injection of the handler of the window into the game loop
-            self.__currentWindow.windowScheduleFunction()
+            # this is the injection of the handler of the window into the game loop, passing the event
+            self.__currentWindow.windowScheduleFunction(event)
 
             pygame.display.flip()
 
