@@ -27,7 +27,6 @@ class WindowHandler(object):
 
     def createWindow(self, background, name):
         window = Window()
-        print window
         window.name = name
         window.background = background
         self.addElement(window)

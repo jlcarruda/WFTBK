@@ -11,6 +11,7 @@ class GameLoop(object):
 
     __instance = None
 
+    __gameClock = None
     __eventBroadcaster = None
     __currentWindow = None
     __screen = pygame.display.get_surface()
@@ -18,14 +19,18 @@ class GameLoop(object):
     running = False
 
     def __init__(self):
-       # self.__windowHandler = windowHandler
+
+        self.__gameClock = pygame.time.Clock()
+
         self.__eventBroadcaster = meta.EventBroadcaster()
         self.__windowHandler = gui.WindowHandler()
         self.__currentWindow = self.__windowHandler.createWindow("sprites/main-menu-new.png", "MainMenu")
 
-        startButton = meta.Button("sprites/start.png",  (300,300))
-        tutorialButton = meta.Button("sprites/tutorial.png", (300,200))
-        quitButton = meta.Button("sprites/quit.png", (300,100))
+        startButton = meta.Button("sprites/start.png",  (300,330))
+        tutorialButton = meta.Button("sprites/tutorial.png", (300,400))
+        quitButton = meta.Button("sprites/quit.png", (300,470))
+
+        #Card = meta.Card()
 
         startButton.defineOnClickEvent(helloWorld)
         quitButton.defineOnClickEvent(quit)
@@ -54,6 +59,7 @@ class GameLoop(object):
             self.__currentWindow.windowScheduleFunction(event)
 
             pygame.display.flip()
+            self.__gameClock.tick(FPS) # It will tame the game loop to run on 60 fps
 
     def changeWindow(self, window):
         print 'Window changed to ' + window.name
@@ -74,3 +80,4 @@ class GameLoop(object):
 
     def shutdown(self):
         self.running = False
+

@@ -16,7 +16,6 @@ class Window():
         if self.__gameObjects == None:
             self.__gameObjects = []
         self.__gameObjects.append(object)
-        print self.__gameObjects
 
     def removeGameObject(self, object):
         if self.__gameObjects == None:
@@ -45,6 +44,3 @@ class Window():
 
     def getMousePos(self):
         return pygame.mouse.get_pos()
-
-    def getGameObjects(self):
-        print self
