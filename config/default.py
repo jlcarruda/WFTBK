@@ -1,4 +1,8 @@
 # Constants for the game
 
 resolution = (800,600)
-ID_BLOCK = 0
+FPS = 60
+
+LEFTMOUSEBUTTON = 1
+MIDDLEMOUSEBUTTON = 2
+RIGHTMOUSEBUTTON = 3

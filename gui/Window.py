@@ -1,31 +1,34 @@
 import pygame
 
-class Window(object):
+class Window():
     background = None
     __loadedBackground = None
-    __gameObjects = []
-    screen = None
+    __gameObjects = None
+    __eventHandler = None
     name = None
 
     # Here will have all the stuff that needs to be updated/rendered/checked in every run of the gameLoop
-    def windowScheduleFunction(self, gameLoop, event = None):
-        self.setScreen(gameLoop)
-        self.tick()
+    def windowScheduleFunction(self, event):
+        self.tick(event)
         self.render()
 
-    def setScreen(self, gameLoop):
-        if self.screen == None:
-            self.screen = gameLoop.getScreen()
-
     def addGameObject(self, object):
+        if self.__gameObjects == None:
+            self.__gameObjects = []
         self.__gameObjects.append(object)
 
     def removeGameObject(self, object):
-        self.__gameObjects.append(object)
+        if self.__gameObjects == None:
+            self.__gameObjects = []
 
-    def tick(self):
+        self.__gameObjects.pop(object)
+
+    def tick(self, event):
+        if self.__gameObjects == None:
+            self.__gameObjects = []
+
         for object in self.__gameObjects:
-            object.tick()
+            object.tick(event)
 
     #The render of all objects of the window. Including the background and the game objects
     def render(self):
@@ -33,15 +36,11 @@ class Window(object):
             self.__loadedBackground = pygame.image.load(self.background).convert_alpha()
 
         # It will blit the background of the screen first
-        self.screen.blit(self.__loadedBackground, (0,0))
+        pygame.display.get_surface().blit(self.__loadedBackground, (0,0))
 
         for object in self.__gameObjects:
             sprite, pos = object.render()
-            self.screen.blit(sprite, pos)
-
-        # Draw the back buffer into the front buffer
-        pygame.display.flip()
+            pygame.display.get_surface().blit(sprite, pos)
 
     def getMousePos(self):
-
         return pygame.mouse.get_pos()

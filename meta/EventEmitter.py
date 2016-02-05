@@ -1,3 +1,6 @@
+from WFTBK import *
+from meta import GameLoop
+
 
 class EventBroadcaster(object):
     __instance = None
@@ -9,12 +12,12 @@ class EventBroadcaster(object):
         return cls.__instance
 
 
-    def subscribe(self, obj, stack):
+    def subscribe(self, obj, event):
 
-        if not self.__eventstacks.has_key(stack):
-            self.__eventstacks[stack] = []
+        if not self.__eventstacks.has_key(event):
+            self.__eventstacks[event] = []
 
-        self.__eventstacks[stack].append(obj)
+        self.__eventstacks[event].append(obj)
 
     def emit(self, stack, options=None):
 
@@ -23,3 +26,10 @@ class EventBroadcaster(object):
 
             for subscriber in obj:
                 subscriber()
+
+
+def toDeckBuilderWin(self):
+    GameLoop().changeWindow(gui.WindowHandler().createWindow("sprites/screen-bg.png", "Deckbuilder"))
+
+def toMainMenuWin(self):
+    GameLoop().changeWindow(gui.WindowHandler().createWindow("sprites/screen-bg.png", "Deckbuilder"))

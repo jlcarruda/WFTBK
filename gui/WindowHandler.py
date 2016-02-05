@@ -1,3 +1,4 @@
+from gui import Window
 
 class WindowHandler(object):
     __elements = {}
@@ -24,5 +25,13 @@ class WindowHandler(object):
         self.__elements.pop(name)
         return
 
-    def getElements(self):
-        return self.__elements
+    def createWindow(self, background, name):
+        window = Window()
+        if(self.__elements.has_key(name)):
+            return self.__elements[name]
+        window.name = name
+        window.background = background
+        self.addElement(window)
+        return window
+
+

@@ -1,4 +1,8 @@
+
 from WFTBK import *
+
+def helloWorld(self):
+    print "Hello World"
 
 def quit(self):
     GameLoop().shutdown()
@@ -26,7 +30,9 @@ class GameLoop(object):
         tutorialButton = meta.Button("sprites/tutorial.png", (300,400))
         quitButton = meta.Button("sprites/quit.png", (300,470))
 
-        startButton.defineOnClickEvent(meta.EventEmitter.toDeckBuilderWin)
+        #Card = meta.Card()
+
+        startButton.defineOnClickEvent(helloWorld)
         quitButton.defineOnClickEvent(quit)
 
         self.__currentWindow.addGameObject(quitButton)
@@ -40,8 +46,7 @@ class GameLoop(object):
         if not cls.__instance:
             cls.__instance = super(GameLoop, cls).__new__(cls, *args)
         return cls.__instance
-
-    def initLoop(self):
+  def initLoop(self):
 
         self.running = True
         while self.running:
