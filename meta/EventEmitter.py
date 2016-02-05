@@ -1,4 +1,6 @@
 from WFTBK import *
+from meta import GameLoop
+
 
 class EventBroadcaster(object):
     __instance = None
@@ -24,3 +26,10 @@ class EventBroadcaster(object):
 
             for subscriber in obj:
                 subscriber()
+
+
+def toDeckBuilderWin(self):
+    GameLoop().changeWindow(gui.WindowHandler().createWindow("sprites/screen-bg.png", "Deckbuilder"))
+
+def toMainMenuWin(self):
+    GameLoop().changeWindow(gui.WindowHandler().createWindow("sprites/screen-bg.png", "Deckbuilder"))

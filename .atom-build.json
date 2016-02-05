@@ -1,0 +1,5 @@
+{
+    "cmd": "python WFTBK.py",
+    "keymap": "ctrl-space",
+    "sh": true
+}
