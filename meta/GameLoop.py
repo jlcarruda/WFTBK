@@ -14,30 +14,28 @@ class GameLoop(object):
     __windowHandler = None
     running = False
 
-    def __init__(self):
-
-        self.__gameClock = pygame.time.Clock()
-
-        self.__eventBroadcaster = meta.EventBroadcaster()
-        self.__windowHandler = gui.WindowHandler()
-        self.__currentWindow = self.__windowHandler.createWindow("sprites/main-menu-new.png", "MainMenu")
-
-        startButton = meta.Button("sprites/start.png",  (300,330))
-        tutorialButton = meta.Button("sprites/tutorial.png", (300,400))
-        quitButton = meta.Button("sprites/quit.png", (300,470))
-
-        startButton.defineOnClickEvent(meta.EventEmitter.toDeckBuilderWin)
-        quitButton.defineOnClickEvent(quit)
-
-        self.__currentWindow.addGameObject(quitButton)
-        self.__currentWindow.addGameObject(startButton)
-        self.__currentWindow.addGameObject(tutorialButton)
-
     def __call__(self, *args, **kwargs):
         return self.__instance
 
     def __new__(cls, *args, **kwargs): #SINGLETON PATTERN
         if not cls.__instance:
+            cls.__gameClock = pygame.time.Clock()
+
+            cls.__eventBroadcaster = meta.EventBroadcaster()
+            cls.__windowHandler = gui.WindowHandler()
+            cls.__currentWindow = cls.__windowHandler.createWindow("sprites/main-menu-new.png", "MainMenu")
+
+            startButton = meta.Button("sprites/start.png",  (300,330))
+            tutorialButton = meta.Button("sprites/tutorial.png", (300,400))
+            quitButton = meta.Button("sprites/quit.png", (300,470))
+
+            startButton.defineOnClickEvent(meta.EventEmitter.toDeckBuilderWin)
+            quitButton.defineOnClickEvent(quit)
+
+            print cls.__currentWindow
+            cls.__currentWindow.addGameObject(quitButton)
+            cls.__currentWindow.addGameObject(startButton)
+            cls.__currentWindow.addGameObject(tutorialButton)
             cls.__instance = super(GameLoop, cls).__new__(cls, *args)
         return cls.__instance
 

@@ -1,5 +1,5 @@
 from WFTBK import *
-from meta import GameLoop
+from meta import *
 
 
 class EventBroadcaster(object):
@@ -29,7 +29,55 @@ class EventBroadcaster(object):
 
 
 def toDeckBuilderWin(self):
-    GameLoop().changeWindow(gui.WindowHandler().createWindow("sprites/screen-bg.png", "Deckbuilder"))
+
+    if not gui.WindowHandler().isCreated("Deckbuilder"):
+        win = gui.WindowHandler().createWindow("sprites/cleanBG.jpg", "Deckbuilder")
+        virusDeck = GameObject.Button("sprites/VirusDeckSleeve.png", (230,200))
+        antiVirusDeck = GameObject.Button("sprites/AntiVirusDeckSleeve.png", (450, 200))
+        backButton = GameObject.Button("sprites/backButton.png")
+
+        backButton.defineOnClickEvent(toMainMenuWin)
+        virusDeck.defineOnClickEvent(toBattlefield)
+        antiVirusDeck.defineOnClickEvent(toBattlefield)
+
+        win.addGameObject(virusDeck)
+        win.addGameObject(antiVirusDeck)
+        win.addGameObject(backButton)
+
+        print win.getGameObjects()
+    else:
+        win = gui.WindowHandler().getElement("Deckbuilder")
+    GameLoop().changeWindow(win)
 
 def toMainMenuWin(self):
-    GameLoop().changeWindow(gui.WindowHandler().createWindow("sprites/screen-bg.png", "Deckbuilder"))
+
+    if not gui.WindowHandler().isCreated("MainMenu"):
+
+        win = gui.WindowHandler().createWindow("sprites/main-menu-new.png", "MainMenu")
+
+        startButton = meta.Button("sprites/start.png",  (300,330))
+        tutorialButton = meta.Button("sprites/tutorial.png", (300,400))
+        quitButton = meta.Button("sprites/quit.png", (300,470))
+
+        startButton.defineOnClickEvent(meta.EventEmitter.toDeckBuilderWin)
+        quitButton.defineOnClickEvent(quit)
+
+        win.addGameObject(quitButton)
+        win.addGameObject(startButton)
+        win.addGameObject(tutorialButton)
+
+    else:
+        win = gui.WindowHandler().getElement("MainMenu")
+
+    GameLoop().changeWindow(win)
+
+
+def toBattlefield(self):
+
+    if not gui.WindowHandler().isCreated("Battlefield"):
+        win = gui.WindowHandler().createWindow("sprites/battlefield.jpg", "Battlefield")
+
+    else:
+        win = gui.WindowHandler().getElement("Battlefield")
+
+    GameLoop().changeWindow(win)

@@ -25,10 +25,19 @@ class WindowHandler(object):
         self.__elements.pop(name)
         return
 
+    def getElements(self):
+        return self.__elements
+
+    def isCreated(self, name):
+        if(self.__elements.has_key(name)):
+            return True
+        return False
+
     def createWindow(self, background, name):
         window = Window()
         if(self.__elements.has_key(name)):
-            return self.__elements[name]
+            print "ERROR: trying to create a window that already exists on memory. " + self.__elements[name]
+            return
         window.name = name
         window.background = background
         self.addElement(window)

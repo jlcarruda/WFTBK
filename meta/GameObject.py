@@ -93,5 +93,5 @@ class Card(__GameObject):
         self.pos = pos
 
     def flip(self):
-        self.__isFlipped = not self.__isFlippe
+        self.__isFlipped = not self.__isFlipped
 

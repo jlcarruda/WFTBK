@@ -12,6 +12,9 @@ class Window():
         self.tick(event)
         self.render()
 
+    def getGameObjects(self):
+        return self.__gameObjects
+
     def addGameObject(self, object):
         if self.__gameObjects == None:
             self.__gameObjects = []
